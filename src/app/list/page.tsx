@@ -1,8 +1,7 @@
-import { Productslist } from "./Productslist"
+import { getProducts } from "@/api/getproduct";
+import ProductsList from "./Productslist";
 
-
-export const page = () => {
-  return (
-    <Productslist/>
-  )
+export default async function Page() {
+  const products = await getProducts();
+  return <ProductsList products={products} />;
 }

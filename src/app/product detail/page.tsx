@@ -1,7 +1,11 @@
-import { ProductDetails } from './ProductDetails'
+import { ProductDetails } from "./ProductDetails";
 
-export const page = () => {
+const Page = () => {
   return (
-    <ProductDetails/>
-  )
-}
+    <div>
+      <ProductDetails />
+    </div>
+  );
+};
+
+export default Page;

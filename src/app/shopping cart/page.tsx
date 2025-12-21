@@ -1,5 +1,11 @@
 import { ShoppingCart } from "./ShoppingCart";
 
-export const page = () => {
-  return <ShoppingCart />;
+const Page = () => {
+  return (
+    <div>
+      <ShoppingCart />
+    </div>
+  );
 };
+
+export default Page;
