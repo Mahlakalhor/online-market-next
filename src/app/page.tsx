@@ -193,9 +193,10 @@ export default async function Home() {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-6 lg:grid-cols-5 mt-6">
           {products.slice(0, 6).map((p) => (
-            <div
+            <Link
               key={p._id}
-              className="border border-gray-500/20 rounded-md max-w-54 md:px-4 px-3 py-2"
+              href={`/product/${p._id}`}
+              className="border border-gray-500/20 rounded-md max-w-54 md:px-4 px-3 py-2 block"
             >
               <div className="group cursor-pointer flex items-center justify-center py-2">
                 <img
@@ -212,31 +213,6 @@ export default async function Home() {
                   {p.name}
                 </p>
 
-                <div className="flex items-center gap-1 mt-1">
-                  {Array.from({ length: 5 }).map((_, i) => {
-                    const rating = p.rating ?? 4;
-                    const filled = i < Math.round(rating);
-
-                    return (
-                      <img
-                        key={i}
-                        src="/Img/star.svg"
-                        alt="star"
-                        className="w-3.5 h-3.5"
-                        style={{
-                          opacity: filled ? 1 : 0.35,
-                          filter:
-                            "brightness(0) saturate(100%) invert(63%) sepia(41%) saturate(559%) hue-rotate(104deg) brightness(92%) contrast(90%)",
-                        }}
-                      />
-                    );
-                  })}
-
-                  <p className="text-gray-500/60">
-                    ({p.rating ? Math.round(p.rating) : 4})
-                  </p>
-                </div>
-
                 <div className="flex items-end justify-between mt-2">
                   <p className="md:text-xl text-base font-medium text-[#4fbf8b]">
                     ${p.offerPrice}
@@ -247,7 +223,13 @@ export default async function Home() {
                     )}
                   </p>
 
-                  <button className="flex items-center cursor-pointer justify-center gap-1 bg-[#4fbf8b]/10 border border-[#4fbf8b]/40 px-2 md:w-20 w-16 h-8.5 rounded text-[#4fbf8b]">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    className="flex items-center cursor-pointer justify-center gap-1 bg-[#4fbf8b]/10 border border-[#4fbf8b]/40 px-2 md:w-20 w-16 h-8.5 rounded text-[#4fbf8b]"
+                  >
                     <img
                       src="/Img/basket.svg"
                       alt="basket"
@@ -261,7 +243,7 @@ export default async function Home() {
                   </button>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
