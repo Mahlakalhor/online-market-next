@@ -1,7 +1,12 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useUIStore } from "@/store/ui";
+
 
 export const Header = () => {
+  const openAuth = useUIStore((s) => s.openAuth);
+
   return (
     <div className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300">
       <Link href="/">
@@ -40,7 +45,10 @@ export const Header = () => {
           </span>
         </div>
 
-        <button className="cursor-pointer px-8 py-2 bg-[#4fbf8b] hover:bg-[#419f73] transition text-white rounded-full">
+        <button
+          onClick={() => openAuth("login")}
+          className="px-4 h-10 rounded-md bg-[#4fbf8b] text-white"
+        >
           Login
         </button>
       </div>

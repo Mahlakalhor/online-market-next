@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/Footercomponent/footer";
 import { Header } from "@/components/HeaderComponent/header";
+import AuthModal from "@/components/Auth/AuthModal";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${outfit.variable} antialiased`}>
         <Header/>
+        <AuthModal/>
         {children}
         <Footer/>
       </body>
