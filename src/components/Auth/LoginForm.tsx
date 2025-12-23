@@ -1,22 +1,33 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { login, type LoginPayload } from "@/api/auth";
+import { useUIStore } from "@/store/ui";
 
-type LoginValues = {
-  email: string;
-  password: string;
-};
+type LoginValues = LoginPayload;
 
 export default function LoginForm() {
+  const closeAuth = useUIStore((s) => s.closeAuth);
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginValues>();
 
-  const onSubmit = async (values: LoginValues) => {
-    console.log("login submit:", values);
-    // بعداً اینجا api login رو می‌زنیم
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: login,
+    onSuccess: (data) => {
+      const token = data?.token;
+      if (token) localStorage.setItem("token", token);
+
+      closeAuth();
+    },
+  });
+
+  const onSubmit = (values: LoginValues) => {
+    mutate(values);
   };
 
   return (
@@ -27,9 +38,7 @@ export default function LoginForm() {
           placeholder="Email"
           {...register("email", { required: "Email is required" })}
         />
-        {errors.email && (
-          <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>
-        )}
+        {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
       </div>
 
       <div>
@@ -39,16 +48,20 @@ export default function LoginForm() {
           placeholder="Password"
           {...register("password", { required: "Password is required" })}
         />
-        {errors.password && (
-          <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>
-        )}
+        {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>}
       </div>
 
+      {error ? (
+        <p className="text-xs text-red-500">
+          Login failed. Check email/password.
+        </p>
+      ) : null}
+
       <button
-        disabled={isSubmitting}
+        disabled={isPending}
         className="w-full h-11 rounded-md bg-[#4fbf8b] text-white font-medium hover:opacity-90 transition disabled:opacity-60"
       >
-        {isSubmitting ? "Loading..." : "Login"}
+        {isPending ? "Loading..." : "Login"}
       </button>
     </form>
   );

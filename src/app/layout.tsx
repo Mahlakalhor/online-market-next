@@ -4,6 +4,7 @@ import "./globals.css";
 import { Footer } from "@/components/Footercomponent/footer";
 import { Header } from "@/components/HeaderComponent/header";
 import AuthModal from "@/components/Auth/AuthModal";
+import Provider from "./Provider";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -22,11 +23,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.variable} antialiased`}>
-        <Header/>
-        <AuthModal/>
-        {children}
-        <Footer/>
+      <body>
+        <Provider>
+          <Header />
+          <AuthModal />
+          {children}
+          <Footer />
+        </Provider>
       </body>
     </html>
   );
